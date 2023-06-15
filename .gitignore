@@ -1,0 +1,8 @@
+/venv/
+/.idea/
+/config/bot_config.json
+/scratch/
+/data/
+/cache/
+/config/bot_config.yaml
+*pyc

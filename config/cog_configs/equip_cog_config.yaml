@@ -1,0 +1,82 @@
+# modify header dict to change names of each col
+# modify default_cols list to modify columns shown by default
+#   - entries should be a key from the headers dict
+#   - columns are shown in same order they appear (except for year / link / thread, which have a predefined position for formatting reasons)
+
+# ____ Cog settings ____
+
+# gives #S123 / MM-YY
+date_template: |-
+  {% set yr = '%02d'|format(DATE[0]) %}
+  #{{TYPE[0].upper()}}{{AUCTION_NUMBER[:3]}} / {{'%02d'|format(DATE[1])}}-{{yr}}
+
+# header names for the equip tables --- see command settings to customize which cols are actually used by default
+equip_headers:
+  date: "# Auction Date"
+  price: Price
+  level: Level
+  stats: Percentiles
+  seller: Seller
+  buyer: Buyer
+  link: ""
+  name: Equip Name
+  thread: ""
+
+# headers for the summary tables
+summary_headers:
+    #col headers
+    category: Category
+    total_count: Count
+    total_credits: Credits
+    unknown: ??
+
+    # row headers
+    total: ">Total<"
+
+# equip names containing at least one value in list as substring will be chucked in that group
+summary_groups:
+  1H: [axe, club, rapier, shortsword, wakizashi]
+  2H: [estoc, longsword, mace, katana]
+  Staff: [oak, redwood, willow, katalox]
+  Shield: [buckler, kite, force]
+  Cloth: [cotton, phase]
+  Light: [leather, shade]
+  Heavy: [plate, power]
+
+
+# ____ Command settings ____
+
+equip:
+  default_cols: [price, level, stats, date]
+  stat_col_width: 20
+  page_limit_server: 2
+  page_limit_dm: 999
+  min_search_length: 3
+
+buyer: # special subcommand for !equip
+  default_cols: [name, price, stats, level, date]
+  stat_col_width: 30
+  page_limit_server: 2
+  page_limit_dm: 999
+
+seller: # special subcommand for !equip
+  default_cols: [name, price, stats, level, date]
+  stat_col_width: 20
+  page_limit_server: 2
+  page_limit_dm: 999
+
+
+
+# ____ Do-not-modify section ____
+
+# keywords in query --> keys in data dict
+# helps determine which columns are needed in table printout
+key_map:
+  min: price
+  max: price
+  date: date
+  name: name
+  seller: seller
+  buyer: buyer
+  link: link
+  thread: thread

@@ -1,0 +1,170 @@
+# Keyword parsing errors ----
+parse_error_template: |-
+  ParseError. Could not parse value `{{VALUE}}` for keyword `{{KEYWORD}}`.
+  ----
+  __Reason__: {{REASON}}
+  __Correct Usage__: `{{PREFIX}}{{COMMAND}} {{ARGS}}`
+  ----
+  See `{{PREFIX}}help {{COMMAND}}` for details.
+
+parse_console_template: |-
+  ParseError. Could not parse value `{{VALUE}}` for keyword `{{KEYWORD}}` with reason: {{EXCEPTION}}
+
+int_reasons:
+  empty: No integer supplied. Did you accidentally include a space?
+  not_int: Not an integer.
+  negative: Value is negative.
+
+
+# Permission errors ----
+default_perm_error: |- # For when no exceptions are matched and no "everyone" flags are tripped.
+  {% if IS_DM %}
+  Error. No commands currently allowed in DMs.
+  {% else %}
+  Error. This bot has not been configured for this server. Please contact Literal Genie#2222.
+  {% endif %}
+
+server_perm_error: |-
+  {% if EVERYONE %}
+  Error. That command has been disabled at the server level.
+  {% else %}
+  Error. You are not allowed to use this commandd.
+  {% endif %}
+  {# .......................................................................................... #}
+  {# Details #}
+  {% if DETAILS %}
+  ```yaml
+  # Details:
+  {% if EXCEPTION %}
+  {{'{:10}'.format("reason:")}}Triggered the following exception at the server-level.
+  {{'{:10}'.format("")}}{{EXCEPTION}}
+  {% elif EVERYONE %}
+  {{'{:10}'.format("reason:")}}"everyone" permission set to fail at the server-level.
+  {% endif %}
+  ```
+  {% endif %}
+
+
+command_or_cog_perm_error: |-
+  {% set tmp = "command" if LEVEL == 0 else "cog" %}
+  {# .................................If caused by everyone flag............................. #}
+  {% if IS_DM and EVERYONE %}
+  Error. This {{tmp}} is not allowed in DMs.
+  {% elif not IS_DM and EVERYONE %}
+  Error. This {{tmp}} has been disabled.
+  {# ......Else caused by exception containing at least one of "user", "channel", "roles"....... #}
+  {% elif channel in EXCEPTION %}
+  Erorr. You can't use that command in this channel.
+  {% elif roles in EXCEPTION or user in EXCEPTION %}
+  Error. You are not allowed to use this command.
+  {% else %}
+  Error. I'm not sure why you can't use this command.
+  {% endif %}
+  {# ........................................Details............................... #}
+  {% if DETAILS %}
+  ```yaml
+  # Details:
+  {{'{:10}'.format("command:")}}{{COMMAND}}
+  {{'{:10}'.format("cog:")}}{{COG}}
+  {% if EXCEPTION %}
+  {{'{:10}'.format("reason:")}}Triggered the following exception at the {{tmp}}-level.
+  {{EXCEPTION}}
+  {% elif EVERYONE %}
+  {{'{:10}'.format("reason:")}}"everyone" permission set to fail at the {{tmp}}-level.
+  {% endif %}
+  ```
+  {% endif %}
+
+# Miscellaneous ----
+uncaught_template: |-
+  Unexpected error. <@113843036965830657>
+  ```py
+  @ MESSAGE:
+  {{MESSAGE}}
+
+  @ EXCEPTION:
+  {{EXCEPTION}}
+  ```
+
+tmp_not_found_template: |-
+  Typo in template name `{{NAME}}`
+  Valid template names: `[{{", ".join(AVAILABLE)}}]`
+  <@113843036965830657>
+
+no_equip_match_template: |-
+  No equips found.
+  ```yaml
+  Search parameters:
+      {% for kw in KEYWORDS if kw.has_value%}
+      {{kw.name}}: {{kw.value}}
+      {% else %}
+      (none)
+      {% endfor %}
+  ```
+
+no_keywords_template: "todo no_keywords_template" #@todo
+
+bad_response_template: |-
+  Error. Accessing "{{LINK}}" failed with reason "{{response.reason}} ({{response.status}})"
+
+# Reaction cog errors ----
+no_guild_template: |-
+  Error. You can't use this command in DM's.
+
+bad_rr_type_template: |-
+  Error. `{{VALUE|upper}}` is not a known sub-command. Please try again with `msg`, `emotes`, or `roles` instead.
+
+empty_message_json_template: |-
+  Error. You must supply a JSON-encoded string that is containing at least one key named "content" or "embed".
+  You may validate your input with <https://leovoel.github.io/embed-visualizer/>. (Exclude the timestamp field.)
+
+yaml_to_json_template: |-
+  ParserError. Could not convert your input to a JSON.
+  You may validate your input with <https://leovoel.github.io/embed-visualizer/>. (Exclude the timestamp field.)
+  ```py
+  {{ERROR}}
+  ```
+
+bad_embed_json_template": |-
+  Error. Could not convert the embed dictionary to a json.
+  Reason: `{{ERROR}}`
+  Input JSON:
+  ```
+  {{STRING}}
+  ```
+
+empty_embed_json_template: |-
+  Error. Your input results in an empty embed.
+  You may validate your input with <https://leovoel.github.io/embed-visualizer/>. (Exclude the timestamp field.)
+  Your input:
+  ---
+  {{STRING}}
+
+no_rr_message_id_template: |-
+  Error. You must supply either "all" or the ID (integer) of a reaction-role message previously posted by the bot.
+
+rr_message_not_int_template: |-
+  Error. The message id supplied (`{{STRING}}`) is not an integer.
+
+bad_rr_message_id_template: |-
+  Error. No previous reaction-role message with that ID (`{{STRING}}`) found.
+
+deleted_rr_message_template: |-
+  Error. The message with that ID (`{{STRING}}`) has been deleted.
+
+deleted_rr_emote_template: |-
+  Error. The emoji with ID `{{ID}}` has been deleted. Please re-edit the rr message.
+  (ie, try `{{CTX.prefix}}rredit {{MESSAGE.id}} emotes {list_of_emotes}`)
+
+deleted_rr_role_template: |-
+  Error. The role with ID `{{ID}}` has been deleted. Please re-edit the rr message.
+  (ie, try `{{CTX.prefix}}rredit {{MESSAGE.id}} roles {list_of_roles}`)
+
+no_add_perms_template: |-
+  Error. I can't give you the `{{ROLE.name}}` role {{MEMBER.mention}}. You're either the server owner or more patrician than me on the role list.
+
+no_remove_perms_template: |-
+  Error. I can't remove the `{{ROLE.name}}` role {{MEMBER.mention}} for you. You're either the server owner or more patrician than me on the role list.
+
+short_query_template: |-
+  Error. Too many results. Please enter a longer query.
