@@ -1,0 +1,24 @@
+# REQUIRES BOT RESTART TO APPLY
+#
+# Settings for cog display name and command alisases
+# Mostly optional, just moves the cog / command names outside the cog's .py file
+
+equip:
+  cog_name: Equip
+  commands:
+
+    equip:
+      name: equip
+      short: eq
+
+    auction: # renamed to equip
+      name: auction
+      short: auct
+
+item:
+  cog_name: Item
+  commands:
+
+    item:
+      name: item
+      short: it

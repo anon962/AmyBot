@@ -1,0 +1,46 @@
+default_help_template: |-
+  See `{{PREFIX}}help topic_name` for details.
+
+  __Help Topics__:
+    {% for c in COGS %}
+      {% set desc = COG_STRINGS[c.qualified_name]['description'] %}
+      **{{ c.qualified_name }}**{{ " - " ~ desc if desc else "" }}
+    {% endfor %}
+
+  Contact Literal Genie#2222 for questions or whatever.
+  <https://github.com/LiteralGenie/AmyBot>
+
+specific_help_template: |-
+    {% for cg in COGS %}
+    {% set tmp = COG_STRINGS[cg.qualified_name] %}
+    **{{cg.qualified_name}}** Cog:
+      {% if tmp['description'] %}
+        __Description__: {{tmp['description']}}
+      {% endif %}
+      {% if tmp['keywords'] %}
+        __Keywords__:
+          {% for kw in tmp['keywords'] %}
+            `{{kw}}`:  {{tmp['keywords'][kw]}}
+          {% endfor %}
+      {% endif %}
+      {% if tmp['commands'] %}
+        __Commands__: [`{{ tmp['commands']|join('`, `') }}`]
+      {% endif %}
+    {% endfor %}
+
+    {% for cmd in COMMANDS %}
+    {% set ent = COG_STRINGS[cmd.cog.qualified_name]['commands'][cmd.name] %}
+    **{{PREFIX}}{{cmd.name}}** Command:
+      {% if ent['description'] %}
+        __Description__: {{ent['description']}}
+      {% endif %}
+        __Usage__: `{{PREFIX}}{{cmd.name}} {{ent['args']}}`
+      {% if ent['keywords'] %}
+        __Keywords__: [{{", ".join(ent['keywords'])}}]
+      {% endif %}
+        __Cog__: {{cmd.cog.qualified_name}}
+    {% endfor %}
+    {% if COMMANDS %}
+
+    See `{{PREFIX}}help cog_name` for descriptions of each keyword.
+    {% endif %}

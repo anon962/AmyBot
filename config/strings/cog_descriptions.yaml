@@ -1,0 +1,71 @@
+# Strings for help command.
+#
+# Any PartialCogs initialized with `hidden = False` (default) must have an entry here.
+# The name passed as a kwarg to the PartialCog should match the name listed here. Similarly for PartialCommands.
+
+Equip:
+    description: Shows data from Super's and Kedama's auctions.
+    commands:
+        equip:
+            description: Show price + stats of past equips
+            args: "equip_name [optional: keywords]"
+            keywords: [year, link, min, max, rare, norare, seller, buyer]
+    keywords:
+        "year": Equips sold prior to this year are ignored (eg \"... 2019\")
+        "link": Show equip links (eg \"... link\")
+        "min":  Equips below this price are ignored (eg \"... min100k\")
+        "max":  Equips above this price are ignored (eg \"... max5m\")
+        "rare": Show only equips with rare suffixes / prefixes (eg \"... rare\")
+        "norare": Show only equips without rare suffixes / prefixes (eg \"... norare\")
+        "seller": Show equips with this seller (eg \"... sellerfrotag\")
+        "buyer": Show equips with this buyer (eg \"... buyerfrotag\")
+        #"thread": Show auction thread link
+
+Item:
+    description: Shows item data from HV Market + Super + Kedama.
+    commands:
+        item:
+            description: Show transaction history for a certain item (using data from hvmarket + super + kedama)
+            args: "item_name [optional: keywords]"
+            keywords: [year, link, minq, maxq, seller, buyer, minu, maxu, minp, maxp]
+    keywords:
+        "year": Equips sold prior to this year are ignored (eg \"... 2019\")
+        "link": Show equip links (eg \"... link\")
+        "min":  Equips below this price are ignored (eg \"... min100k\")
+        "max":  Equips above this price are ignored (eg \"... max5m\")
+        "seller": Show equips with this seller (eg \"... sellerfrotag\")
+        "buyer": Show equips with this buyer (eg \"... buyerfrotag\")
+        #"thread": Show auction thread link
+
+Preview:
+    description: Link previews
+    commands:
+        preview:
+            description: "(Not an actual command.) Currently supported links include: [equips, forum threads, forum comments, bounties]"
+            args: ""
+            keywords: []
+
+
+Reaction:
+    description: Mostly reaction roles.
+    keywords:
+    commands:
+        addrr:
+            description: Add reaction role message
+            args: '{json-encoded string containing "content" and/or "embed" keys}'
+            keywords:
+
+        editrr:
+            description: Edit reaction role message / emotes / roles
+            args: '{old_message_id}  { "message" | "roles" | "emotes" }  { text/json | list of roles | list of emotes }'
+            keywords:
+
+        getrr:
+            description: Gets a list of active reaction-role messages for the server
+            args: '{old_message_id OR "all"}'
+            keywords:
+
+        listroles:
+            description: Lists all roles + role ids for the server
+            args: ""
+            keywords:

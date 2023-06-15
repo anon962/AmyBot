@@ -1,0 +1,18 @@
+prefix: "!"  # leading and unquoted punctuation characters are treated as commands in YAML
+discord_key: KEY
+
+hv_login_link: https://hentaiverse.org/login?ipb_member_id=ID&ipb_pass_hash=HASH # GET request url for logging into HV
+eh_username: username
+eh_password: password
+
+market_check_frequency_hours: 48
+equip_range_check_frequency_hours: 168
+
+max_edit_delay: 1800 # seconds
+
+# (optional) dump oversized command outputs to gist
+enable_gist: False
+gist_user: username # https://gist.github.com/GIST_USER/GIST_ID
+gist_token: 123blah # github oauth token
+gist_id: 456blah
+gist_file_name: bot_dump.md

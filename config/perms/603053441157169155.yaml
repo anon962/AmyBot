@@ -1,0 +1,97 @@
+help_string: &help |-
+  Exception lists are checked in the order of command --> cog --> server (smallest to largest).
+  Within each level / list, the topmost, the first matching exception is used to determine if the command succeeds / fails.
+
+  For example, with the listing below, only the user with id 122 and holding roles with ids 344 / 566
+  may post in the channel with id 788.
+
+  # Command-level
+  help:
+    everyone: *pass
+    exceptions:
+    amy: { value: *allow, user: 122, roles: [344, 566] }
+    channel_ban: { value: *allow, channel: 788 }
+
+  Note that "amy" / "channel_ban" here can be any memorable identifiers.
+  Also note that values for "user" and "channel" must be ints whereas the value for "roles" must be a list of int.
+
+  When multiple criteria / ids are used, ALL criteria / ids must be met for the exception to apply.
+
+  If the "everyone" key for a level is set to...
+  *allow - the command will be allowed if no exceptions in the current level are matched
+  *fail - the command will fail if no exceptions in the current level are matched
+  *pass - the next level of exceptions will be checked. If there is no next level, the command will fail.
+  (Remember that exceptions are checked in the order of command-level -> cog-level -> server-level!!)
+
+  If "vocal_fail" mode is enabled, a failed-permissions message will be sent to the user. If "details" is also enabled,
+  the reason (eg exception entry) will also be printed.
+
+
+flags:
+  ALLOW: &allow 1
+  PASS: 0
+  FAIL: &fail -1
+
+
+vocal_fail: true
+details: false
+
+everyone: *fail
+exceptions:
+- value: *allow
+  channel: 634255830094446592
+
+none:
+  everyone: 0
+  exceptions: []
+  help:
+    everyone: 0
+    exceptions: []
+Auction:
+  everyone: 0
+  exceptions: []
+  auction:
+    everyone: 0
+    exceptions: []
+  bought:
+    everyone: 0
+    exceptions: []
+Item:
+  everyone: 0
+  exceptions: []
+  item:
+    everyone: 0
+    exceptions: []
+Equip:
+  everyone: 0
+  exceptions: []
+  equip:
+    everyone: 0
+    exceptions: []
+  auction:
+    everyone: 0
+    exceptions: []
+Preview:
+  everyone: *allow
+  exceptions: []
+  preview:
+    everyone: 0
+    exceptions: []
+Reaction:
+  everyone: 0
+  exceptions: []
+  addrr:
+    everyone: 0
+    exceptions: []
+  editrr:
+    everyone: 0
+    exceptions: []
+  reaction_delete:
+    everyone: *allow
+    exceptions: []
+  listroles:
+    everyone: 0
+    exceptions: []
+  reaction_role:
+    everyone: *allow
+    exceptions: []
